@@ -144,10 +144,14 @@ jobs:
         run: |
           cat kubernetes/development/*.yaml
 
+      - name: Ensure namespace exists
+        run: |
+          kubectl get ns "${{ vars.NAMESPACE }}" >/dev/null 2>&1 || kubectl create ns "${{ vars.NAMESPACE }}"
+      
       - name: Create/Update MongoDB secret
         run: |
           kubectl -n "${{ vars.NAMESPACE }}" create secret generic mongo-db-creds \
-            --from-literal=MONGO_URI="${{ env.MONGO_URI }}" \
-            --from-literal=MONGO_USERNAME="${{ env.MONGO_USERNAME }}" \
+            --from-literal=MONGO_URI="${{ secrets.MONGO_URI }}" \
+            --from-literal=MONGO_USERNAME="${{ secrets.MONGO_USERNAME }}" \
             --from-literal=MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}" \
             --dry-run=client -o yaml | kubectl apply -f -
