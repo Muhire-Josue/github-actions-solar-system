@@ -103,20 +103,20 @@ jobs:
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/solar-syste:${{ github.sha }}
 
-  dev-deploy:
-    needs: docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
+  # dev-deploy:
+  #   needs: docker
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout repo
+  #       uses: actions/checkout@v4
 
-      - name: Install Kubectl cli
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.26.0'
+  #     - name: Install Kubectl cli
+  #       uses: azure/setup-kubectl@v3
+  #       with:
+  #         version: 'v1.26.0'
       
-      - name: Fetch kubernetes cluster details
-        run: |
-          kubectl version --short
-          echo ----------------------
-          kubectl get nodes
+  #     - name: Fetch kubernetes cluster details
+  #       run: |
+  #         kubectl version --short
+  #         echo ----------------------
+  #         kubectl get nodes
